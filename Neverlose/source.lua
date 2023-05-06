@@ -95,22 +95,24 @@ local function clickEffect(options)
 end
 
 local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+local function toggleNeverlose(keyCode)
+	local neverloseModule = CoreGui:FindFirstChild("Neverlose")
+	if neverloseModule then
+		neverloseModule.Enabled = not neverloseModule.Enabled
+	end
+end
 
-local function toggleNeverlose()
+function Library:Toggle(keyCode)
 	if game:GetService("CoreGui"):FindFirstChild("Neverlose") == nil then
 		return
 	end
-
-	local neverloseModule = game:GetService("CoreGui"):FindFirstChild("Neverlose")
-	local enabled = neverloseModule.Enabled
-	neverloseModule.Enabled = not enabled
+	UserInputService.InputBegan:Connect(function(input, isProcessed)
+		if input.KeyCode == keyCode and not isProcessed then
+			toggleNeverlose(keyCode)
+		end
+	end)
 end
-
-UserInputService.InputBegan:Connect(function(input, isProcessed)
-	if input.KeyCode == Enum.KeyCode.RightShift and not isProcessed then
-		toggleNeverlose()
-	end
-end)
 
 function Library:Window(options)
 	options.text = options.text or "NEVERLOSE"
