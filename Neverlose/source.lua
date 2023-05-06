@@ -96,20 +96,22 @@ end
 
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
-local function toggleNeverlose(keyCode)
+
+local function toggleNeverlose()
 	local neverloseModule = CoreGui:FindFirstChild("Neverlose")
 	if neverloseModule then
 		neverloseModule.Enabled = not neverloseModule.Enabled
 	end
 end
 
-function Library:Toggle(keyCode)
+function Library:Toggle()
 	if game:GetService("CoreGui"):FindFirstChild("Neverlose") == nil then
 		return
 	end
+
 	UserInputService.InputBegan:Connect(function(input, isProcessed)
-		if input.KeyCode == keyCode and not isProcessed then
-			toggleNeverlose(keyCode)
+		if input.KeyCode == Enum.KeyCode.RightShift and not isProcessed then
+			toggleNeverlose()
 		end
 	end)
 end
